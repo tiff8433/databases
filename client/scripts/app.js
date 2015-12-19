@@ -56,10 +56,10 @@ app.fetch = function() {
 
   $.ajax({
     // This is the url you should use to communicate with the parse API server.
-    url: app.server,
+    url: app.server + '/messages',
     type: 'GET',
     contentType: 'application/json',
-    data: 'where={"roomname":"' + client.currRoom + '"}',
+    // data: 'where={"roomname":"' + client.currRoom + '"}',
     success: function(data) {
       console.log('Retrieved', data, 'for room:' , client.currRoom);
       client.messages = [];

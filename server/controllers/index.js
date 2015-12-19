@@ -20,10 +20,21 @@ var dbConnection = mysql.createConnection({
 
 module.exports = {
   messages: {
-    get: function(req, res) {}, // a function which handles a get request for all messages
-    post: function(req, res) {
-        dbConnection.connect();
+    get: function(req, res) {
 
+      //{results: [{msgObj1}, {msgObj2}, ...]}
+
+      var queryString = "SELECT * FROM messages";
+      dbConnection.query(queryString, function(err, rows, fields) {
+        if (err) {
+          console.log(err);
+        }
+        var data = {};
+        data.results = rows;
+        res.header(headers).status(200).send(data);
+      });
+    }, // a function which handles a get request for all messages
+    post: function(req, res) {
         var queryString = "INSERT INTO messages VALUES (?,?,?,NOW())";
         var queryArray = [req.body.username, req.body.text, req.body.roomname];
         dbConnection.query(queryString, queryArray, function(err, rows, fields) {
@@ -31,8 +42,6 @@ module.exports = {
             console.log(err);
           }
         });
-
-        dbConnection.end();
         res.header(headers).status(201).send('');
       } // a function which handles posting a message to the database
   },
