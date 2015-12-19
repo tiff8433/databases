@@ -22,6 +22,20 @@ app.init = function() {
   });
 
   client.username = prompt('Enter your name:');
+  /*
+    Send an ajax call
+  */
+  $.ajax({
+    url: app.server + '/users',
+    type: 'POST', 
+    data: JSON.stringify({username: client.username}),
+    contentType: 'application/json', 
+    success: function(data) {
+      console.log('chatterbox: Username sent. Data: ', data);
+    }, 
+    error: function(data) { 
+    }
+  });
 
   app.fetch();
   setInterval(app.updateMsg, 1000);
@@ -38,8 +52,7 @@ app.send = function(message) {
       console.log('chatterbox: Message sent. Data: ', data);
     },
     error: function(data) {
-      // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
-      console.error('chatterbox: Failed to send message. Error: ', data);
+      app.fetch();
     }
   });
 };

@@ -1,8 +1,6 @@
 var models = require('../models');
 var bluebird = require('bluebird');
 var cors = require('cors');
-var mysql = require('mysql');
-
 
 var headers = {
   "access-control-allow-origin": "*",
@@ -12,45 +10,25 @@ var headers = {
   'Content-Type': "application/json"
 };
 
-var dbConnection = mysql.createConnection({
-  user: "root",
-  password: "",
-  database: "chat"
-});
-
 module.exports = {
   messages: {
     get: function(req, res) {
-
-      //{results: [{msgObj1}, {msgObj2}, ...]}
-
-      var queryString = "SELECT * FROM messages";
-      dbConnection.query(queryString, function(err, rows, fields) {
-        if (err) {
-          console.log(err);
-        }
-        var data = {};
-        data.results = rows;
+      models.messages.get(function(data){
         res.header(headers).status(200).send(data);
       });
     }, // a function which handles a get request for all messages
-    post: function(req, res) {
-        var queryString = "INSERT INTO messages VALUES (?,?,?,NOW())";
-        var queryArray = [req.body.username, req.body.text, req.body.roomname];
-        dbConnection.query(queryString, queryArray, function(err, rows, fields) {
-          if (err) {
-            console.log(err);
-          }
-        });
-        res.header(headers).status(201).send('');
-      } // a function which handles posting a message to the database
+    post: function(req, res) { //req.body.username,text,roomname -> {username,text,roomname}
+      models.messages.post(req.body);
+      res.header(headers).status(201).send('');
+    } // a function which handles posting a message to the database
   },
 
   users: {
     // Ditto as above
     get: function(req, res) {},
     post: function(req, res) {
-      res.header(headers).status(201).end();
+       models.users.post(req.body.username);
+       res.header(headers).status(201).end();
     }
   }
 };

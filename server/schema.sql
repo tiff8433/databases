@@ -19,12 +19,22 @@ column_name3 data_type(size),
 ....
 );
 */
+CREATE TABLE users (
+  id int(10) auto_increment,
+  username varchar(255),
+  primary key (id),
+  unique (username)
+);
+
 CREATE TABLE messages (
   /* Describe your table here.*/
-  username varchar(255),
+  id int(10) auto_increment,
+  userid int(10),
   text varchar(255),
   roomname varchar(255),
-  createdAt datetime
+  createdAt datetime,
+  primary key (id),
+  foreign key (userid) references users(id)
 );
 
 /* Create other tables and define schemas for them here! */
