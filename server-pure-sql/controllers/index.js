@@ -25,11 +25,7 @@ module.exports = {
 
   users: {
     // Ditto as above
-    get: function(req, res) {
-      models.users.get(function(data){
-        res.header(headers).status(200).send(data);
-      });
-    },
+    get: function(req, res) {},
     post: function(req, res) {
        models.users.post(req.body.username);
        res.header(headers).status(201).end();

@@ -1,10 +1,7 @@
 var db = require('../db');
 var mysql = require('mysql');
 
-
-
 module.exports = {
-
   test: 'test',
   messages: {
     get: function(callback) {
@@ -45,12 +42,7 @@ module.exports = {
 
   users: {
     // Ditto as above.
-    get: function(callback) {
-      db.User.findAll()
-        .then(function(err, results){
-          callback(results);
-        });
-    },
+    get: function() {},
     post: function(str) {
       //on the client, prompt asks for a username
       //send a POST request to /chat/users (in controllers)
