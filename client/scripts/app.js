@@ -81,6 +81,7 @@ app.fetch = function() {
         // <> >
         // escape messages here
         //if(obj is valid)
+        console.log(obj);
         if (app.isValid(obj)) {
           client.messages.push(obj);
         }
@@ -106,7 +107,7 @@ app.addMessage = function(message) {
   }
   $('#chats')
     .append(element + "'><span class='username'>" +
-      message.username + "</span>: <span class='message'>" +
+      message.User.username + "</span>: <span class='message'>" +
       message.text + "</span></div>");
 };
 
